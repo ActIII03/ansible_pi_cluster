@@ -1,0 +1,10 @@
+- hosts: cluster
+  become: true
+  tasks:
+    - name: Get machine info
+      shell: uname -a
+      register: result
+
+    - name: Display machine info
+      debug:
+        var: result.stdout_lines

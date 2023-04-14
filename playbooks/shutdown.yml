@@ -1,0 +1,10 @@
+- hosts: cluster
+  become: true
+  tasks:
+    - name: Shutdown after 60 seconds
+      shell: shutdown -h +1
+      register: result
+
+    - name: Display machine info
+      debug:
+        var: result.stdout_lines
