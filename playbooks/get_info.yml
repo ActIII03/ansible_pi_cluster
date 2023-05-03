@@ -1,4 +1,4 @@
-- hosts: cluster
+- hosts: homelab
   become: true
   tasks:
     - name: Get machine info

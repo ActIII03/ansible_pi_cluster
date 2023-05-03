@@ -1,0 +1,35 @@
+- hosts: control
+  become: true
+  gather_facts: false
+  tasks:    
+    - name: Transfer bin/
+      ansible.builtin.copy:
+        src: bin/control_k3.bsh
+        dest: /home/node1
+        mode: '0777'
+        owner: node1
+        remote_src: false
+
+    - name: Execute Install on control node k3s
+      ansible.builtin.shell: sh /home/node1/control_k3.bsh
+      register: stdout
+
+    - name: Output from install on control
+      debug:
+        var: stdout.stdout_lines
+
+
+
+- hosts: workers
+  become: true
+  gather_facts: false
+  tasks:    
+    - name: Transfer bin/
+      ansible.builtin.copy:
+        src: bin/workers_k3.bsh
+        dest: ~/
+        mode: '0777'
+        owner: node1
+        remote_src: false
+
+

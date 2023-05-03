@@ -1,0 +1,40 @@
+# Purpose: set up rancher and kubernetes cluster
+- hosts: cluster
+  become: yes
+  roles:
+    - role: rancher
+      rancher_version: v2.0.8
+      rancher_server_url: https://rancher.example.com
+      rancher_server_token: token-xxxxx
+      rancher_cluster_name: mycluster
+      rancher_cluster_token: token-xxxxx
+      rancher_cluster_driver: rke
+      rancher_cluster_rke_config:
+        addon_job_timeout: 30
+        authentication:
+          strategy: x509
+        ignore_docker_version: true
+        ingress:
+          provider: nginx
+        network:
+          plugin: canal
+        services:
+          etcd:
+            backup_config:
+              enabled: true
+              interval_hours: 12
+              retention: 6
+            creation: 12h
+            extra_args:
+              election-timeout: 5000
+              heartbeat-interval: 500
+            gid: 0
+            retention: 72h
+            snapshot: true
+            uid: 0
+          kube_api:
+            always_pull_images: false
+            pod_security_policy: false
+            service_node_port_range: 30000-32767
+          kube_controller:
+            cluster_cidr:

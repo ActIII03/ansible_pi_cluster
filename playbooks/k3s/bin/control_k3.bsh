@@ -1,0 +1,12 @@
+#!/usr/env sh
+
+
+echo "Hello from node"
+export K3S_KUBECONFIG_MODE="6443"
+export INSTALL_K3S_EXEC=" --no-deploy servicelb --no-deploy traefik"
+
+# curl -sfL https://get.k3s.io | sh -
+ 
+# Get token of the k3s svc
+sudo cat /var/lib/rancher/k3s/server/node-token
+
